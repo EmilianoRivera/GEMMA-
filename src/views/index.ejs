@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%=title %>
+    </title>
+    <%-include('partials/head.ejs')%>
+</head>
+
+<body>
+
+    <%- include('partials/navigation.ejs')%>
+
+        <!--MAIN CONTENT-->
+        <header class="container vh-100 d-flex justify-content-center align-items-center">
+            <div class="d-flex flex-column justify-content-center align-items-center">
+                <img src="/img/bachecito26.png" alt="" class="w-20">
+                <p id="profile"></p>
+            </div>
+        </header>
+        <%- include('partials/footer.ejs')%>
+      
+</body>
+
+</html>

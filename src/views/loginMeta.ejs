@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %>
+    </title>
+    <%-include('partials/head.ejs')%>
+</head>
+
+<body>
+    <%-include('partials/navigation.ejs')%>
+
+
+        <h1 class="p-5">LOGIN META</h1>
+        <div class="container p-5 justify-content-center text-center">
+            <p id="profile">
+                </nav>
+            </p>
+            <p class="p-3">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam molestias vel dicta omnis consequatur
+                reprehenderit aperiam dolor maxime? Exercitationem unde reiciendis suscipit, est nihil ab rerum
+                voluptatibus
+                assumenda eaque optio.
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam molestias vel dicta omnis consequatur
+                reprehenderit aperiam dolor maxime? Exercitationem unde reiciendis suscipit, est nihil ab rerum
+                voluptatibus
+                assumenda eaque optio.
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam molestias vel dicta omnis consequatur
+                reprehenderit aperiam dolor maxime? Exercitationem unde reiciendis suscipit, est nihil ab rerum
+                voluptatibus
+                assumenda eaque optio.
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam molestias vel dicta omnis consequatur
+                reprehenderit aperiam dolor maxime? Exercitationem unde reiciendis suscipit, est nihil ab rerum
+                voluptatibus
+                assumenda eaque optio.
+            </p>
+
+            <p class="p-4">
+                Aqui se realiza la prueba de login
+            </p>
+        </div>
+        <script>
+
+            function statusChangeCallback(response) { 
+                console.log('statusChangeCallback');
+                console.log(response);                   
+                if (response.status === 'connected') {   
+                    var accessToken = response.authResponse.accessToken;
+                    var userId = response.authResponse.userID;
+                   
+                
+                    FB.api('/' + userId + '/accounts', 'GET', { access_token: accessToken }, function (response) {
+                        if (response && !response.error) {
+                           
+                            console.log(response);
+
+                            for (var i = 0; i < response.data.length; i++) {
+                                var page = response.data[i];
+                                console.log('ID de la página: ' + page.id);
+                                console.log('Nombre de la página: ' + page.name);
+                            }
+                        }
+                    });
+                    console.log(accessToken)
+                    console.log(userId)
+
+                    testAPI();
+                } else {                                
+                    document.getElementById('status').innerHTML = 'Please log ' +
+                        'into this webpage.';
+                }
+            }
+
+
+            function checkLoginState() {              
+                FB.getLoginStatus(function (response) {   
+                    statusChangeCallback(response);
+                });
+            }
+
+
+            window.fbAsyncInit = function () {
+                FB.init({
+                    appId: '699930558768635',
+                    cookie: true,                     
+                    xfbml: true,                   
+                    version: 'v18.0'          
+                });
+
+//USAR METODO POST Y API TOKEN, PARAMETROS: TITLE, CONTENT 
+                FB.getLoginStatus(function (response) {   
+                    statusChangeCallback(response);       
+                });
+            };
+
+            function testAPI() {                     
+                console.log('Welcome!  Fetching your information.... ');
+                FB.api('/me', function (response) {
+                    console.log('Successful login for: ' + response.name);
+                    document.getElementById('status').innerHTML =
+                        'Thanks for logging in, ' + response.name + '!';
+                });
+            }
+
+        </script>
+
+        <script>
+            /*
+                        function statusChangeCallback(response) {  // Called with the results from FB.getLoginStatus().
+                            console.log('statusChangeCallback');
+                            console.log(response);                   // The current login status of the person.
+                            if (response.status === 'connected') {   // Logged into your webpage and Facebook.
+                                var accessToken = response.authResponse.accessToken;//ACA EL TOKEN
+                                console.log(accessToken)
+                                testAPI();
+                              //  checkLoginState()
+                                //publishToPage(accessToken)
+            
+                            } else {                                 // Not logged into your webpage or we are unable to tell.
+                                document.getElementById('status').innerHTML = 'Please log ' +
+                                    'into this webpage.';
+                            }
+                        }
+            
+            
+                        function checkLoginState() {
+                            // Pide permisos adicionales, incluyendo public_profile y los necesarios para las páginas.
+                            FB.getLoginStatus(function(response) {
+                                statusChangeCallback(response)
+                            })
+                           
+                            FB.login(function (response) {
+                                statusChangeCallback(response);
+                            }, { scope: 'public_profile,pages_manage_metadata,pages_manage_posts,pages_manage_read_engagement,pages_show_list' });
+                        }
+            
+                        window.fbAsyncInit = function () {
+                            FB.init({
+                                appId: '699930558768635',
+                                cookie: true,                     // Enable cookies to allow the server to access the session.
+                                xfbml: true,                     // Parse social plugins on this webpage.
+                                version: 'v18.0'           // Use this Graph API version for this call.
+                            });
+            
+            
+                            FB.getLoginStatus(function (response) {   // Called after the JS SDK has been initialized.
+                                statusChangeCallback(response);        // Returns the login status.
+            
+            
+                            });
+                        };
+            
+                        function testAPI() {                      // Testing Graph API after login.  See statusChangeCallback() for when this call is made.
+                            console.log('Welcome!  Fetching your information.... ');
+                            FB.api('/me', function (response) {
+                                console.log('Successful login for: ' + response.name);
+                                document.getElementById('status').innerHTML =
+                                    'Thanks for logging in, ' + response.name + '!';
+                            });
+                        }/*
+                        function publishToPage(accessToken) {
+                            // Reemplaza '{page-id}' con el ID de tu página
+                            var pageId = '178669642178193';
+                            console.log("NO LLEGA AQUI")
+                            // Realiza la publicación en la página
+                            FB.api(
+                                '/' + pageId + '/feed',
+                                'POST',
+                                {
+                                    message: '¡Hola desde mi aplicación!',
+                                    access_token: accessToken
+                                },
+                                function (response) {
+                                    if (response && !response.error) {
+                                        console.log('Publicación exitosa:', response);
+                                    } else {
+                                        console.error('Error al realizar la publicación:', response);
+                                    }
+                                }
+                            );
+                        }
+            */
+        </script>
+
+
+        <!-- The JS SDK Login Button -->
+
+        <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+
+        </fb:login-button>
+
+        <div id="status">
+        </div>
+
+        <!-- Load the JS SDK asynchronously -->
+        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_LA/sdk.js"></script>
+        <%- include('partials/footer.ejs')%>
+</body>
+
+</html>
